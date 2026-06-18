@@ -6,13 +6,40 @@ import {
   LayoutDashboard, Activity, FileWarning, Users, Settings, 
   ChevronRight, Search, Bell, DollarSign, Target, CheckCircle2, 
   Flame, BrainCircuit, ArrowRight, RadioReceiver, XCircle, 
-  Sparkles, TerminalSquare
+  TerminalSquare, Zap, Filter, Download
 } from 'lucide-react';
 
 // --- THE BRAIN (Logic) ---
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+
+// --- THE LOGO (Pure Code, No Images Needed) ---
+const BrandLogo = () => (
+  <div className="relative flex items-center justify-center w-10 h-10 group cursor-pointer">
+    {/* Background Glow */}
+    <div className="absolute inset-0 bg-gradient-to-tr from-[#ff6b00] via-[#d927a1] to-[#2b58ff] blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+    {/* SVG Triangle */}
+    <svg viewBox="0 0 24 24" className="w-8 h-8 relative z-10 drop-shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" fill="none">
+      <defs>
+        <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#ff6b00" />
+          <stop offset="50%" stopColor="#d927a1" />
+          <stop offset="100%" stopColor="#2b58ff" />
+        </linearGradient>
+      </defs>
+      <path 
+        d="M12 2.5L22 19.5H2L12 2.5Z" 
+        stroke="url(#logo-grad)" 
+        strokeWidth="2.5" 
+        strokeLinejoin="round" 
+        fill="rgba(0,0,0,0.4)" 
+        className="backdrop-blur-sm"
+      />
+      <circle cx="12" cy="13" r="3" fill="url(#logo-grad)" opacity="0.8"/>
+    </svg>
+  </div>
+);
 
 export default function Dashboard() {
   const [telemetryLogs, setTelemetryLogs] = useState<any[]>([]);
@@ -63,152 +90,144 @@ export default function Dashboard() {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   };
 
-  // --- THE FACE (UI) ---
   return (
-    <div className="bg-[#0B0D17] text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="bg-[#03040B] text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-[#d927a1]/30 selection:text-white relative">
       
-      {/* Sidebar Navigation */}
-      <aside className="w-64 bg-[#0B0D17] border-r border-slate-800/60 flex flex-col z-20 relative">
-        <div className="h-20 flex items-center px-6 border-b border-slate-800/60">
+      {/* Deep Space Background Glows */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#ff6b00]/10 rounded-full blur-[180px] pointer-events-none"></div>
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#2b58ff]/10 rounded-full blur-[180px] pointer-events-none"></div>
+
+      {/* Sidebar Navigation (Frosted Glass) */}
+      <aside className="w-64 bg-white/[0.01] backdrop-blur-3xl border-r border-white/[0.05] flex flex-col z-20 relative shadow-2xl">
+        <div className="h-24 flex items-center px-6 border-b border-white/[0.05]">
             <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 p-[1px]">
-                  <div className="w-full h-full bg-[#0B0D17] rounded-[7px] flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-indigo-400" />
-                  </div>
-                </div>
-                <span className="text-xl font-bold tracking-tight text-white">AuteurOS</span>
+              <BrandLogo />
+              <span className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                AuteurOS
+              </span>
             </div>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-            <p className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Workspace</p>
+        <nav className="flex-1 px-4 py-8 space-y-3 overflow-y-auto">
+            <p className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Workspace</p>
             
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 transition-all">
-                <LayoutDashboard className="w-4 h-4" />
-                <span className="font-medium text-sm">Command Center</span>
+            <a href="#" className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gradient-to-r from-white/[0.08] to-transparent text-white border border-white/[0.05] relative overflow-hidden group transition-all shadow-[0_0_20px_rgba(255,255,255,0.02)]">
+                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#ff6b00] via-[#d927a1] to-[#2b58ff]"></div>
+                <LayoutDashboard className="w-4 h-4 text-[#d927a1]" />
+                <span className="font-semibold text-sm tracking-wide">Command Center</span>
             </a>
             
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-white transition-all group">
-                <RadioReceiver className="w-4 h-4 group-hover:text-indigo-400 transition-colors" />
-                <span className="font-medium text-sm">Live Telemetry</span>
+            <a href="#" className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:bg-white/[0.03] hover:text-white transition-all duration-300 group">
+                <RadioReceiver className="w-4 h-4 group-hover:text-[#2b58ff] transition-colors" />
+                <span className="font-medium text-sm tracking-wide">Live Telemetry</span>
                 <span className="ml-auto flex h-2 w-2 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
                 </span>
             </a>
             
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-white transition-all group">
-                <FileWarning className="w-4 h-4 group-hover:text-amber-400 transition-colors" />
-                <span className="font-medium text-sm">Autopsy Reports</span>
-                <span className="ml-auto bg-amber-500/10 text-amber-500 py-0.5 px-2 rounded-md text-xs font-bold border border-amber-500/20">3</span>
-            </a>
-            
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-white transition-all group">
-                <Users className="w-4 h-4 group-hover:text-blue-400 transition-colors" />
-                <span className="font-medium text-sm">Team Pipeline</span>
+            <a href="#" className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:bg-white/[0.03] hover:text-white transition-all duration-300 group">
+                <FileWarning className="w-4 h-4 group-hover:text-[#ff6b00] transition-colors" />
+                <span className="font-medium text-sm tracking-wide">Autopsy Reports</span>
+                <span className="ml-auto bg-[#ff6b00]/10 text-[#ff6b00] py-0.5 px-2 rounded-md text-xs font-bold border border-[#ff6b00]/20">3</span>
             </a>
         </nav>
       </aside>
 
       {/* Main Dashboard Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         
-        {/* Subtle Background Glows */}
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-
-        {/* Top App Bar */}
-        <header className="h-20 px-8 flex items-center justify-between border-b border-slate-800/60 bg-[#0B0D17]/80 backdrop-blur-xl z-10 sticky top-0">
-            <div className="flex items-center gap-2 text-sm">
+        {/* Top App Bar (Glass) */}
+        <header className="h-24 px-10 flex items-center justify-between border-b border-white/[0.05] bg-[#03040B]/80 backdrop-blur-md z-10 sticky top-0">
+            <div className="flex items-center gap-3 text-sm">
                 <span className="text-slate-500 font-medium">Projects</span>
                 <ChevronRight className="w-4 h-4 text-slate-600" />
-                <span className="text-slate-200 font-medium tracking-wide">Nike Summer Campaign</span>
-                <div className="h-4 w-px bg-slate-700 mx-3"></div>
-                <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-[11px] font-bold tracking-wide border border-emerald-500/20 uppercase flex items-center gap-1.5">
-                    Live Sync Active
+                <span className="text-white font-semibold tracking-wide">Nike Summer Campaign</span>
+                <div className="h-5 w-px bg-white/10 mx-4"></div>
+                <span className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 text-[11px] font-bold tracking-widest border border-emerald-500/20 uppercase flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                    <Zap className="w-3 h-3 fill-emerald-400" /> Network Sync Active
                 </span>
             </div>
-            <div className="flex items-center gap-5">
-                <Search className="w-4 h-4 text-slate-400 hover:text-white cursor-pointer transition-colors" />
-                <Bell className="w-4 h-4 text-slate-400 hover:text-white cursor-pointer transition-colors" />
-                <button className="bg-white text-slate-950 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] ml-2">
-                    Export CSV
+            <div className="flex items-center gap-6">
+                <button className="bg-white text-black px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-200 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center gap-2">
+                    <Download className="w-4 h-4"/> Export Data
                 </button>
             </div>
         </header>
 
         {/* Scrollable Workspace */}
-        <div className="flex-1 overflow-y-auto p-8 z-10">
-            <div className="max-w-6xl mx-auto space-y-8">
+        <div className="flex-1 overflow-y-auto p-10 scroll-smooth">
+            <div className="max-w-7xl mx-auto space-y-10">
                 
                 {/* Page Header */}
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Telemetry Overview</h1>
-                    <p className="text-slate-400 text-sm font-medium">Real-time financial and continuity tracking for generative AI workflows.</p>
+                    <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">API Telemetry</h1>
+                    <p className="text-slate-400 text-sm font-medium">Real-time financial and continuity tracking for generative workflows.</p>
                 </div>
 
                 {/* KPI Metric Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    {/* Card 1 */}
-                    <div className="bg-[#131627]/50 backdrop-blur-sm border border-slate-800/60 rounded-2xl p-6 relative overflow-hidden group hover:border-indigo-500/30 transition-all">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Card 1: API Spend */}
+                    <div className="bg-white/[0.01] backdrop-blur-xl border border-white/[0.05] rounded-3xl p-8 relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 hover:border-[#ff6b00]/40 hover:shadow-[0_15px_40px_rgba(255,107,0,0.1)]">
                         <div className="flex justify-between items-start mb-6">
-                            <p className="text-slate-400 font-semibold text-xs uppercase tracking-wider">Weekly API Spend</p>
-                            <div className="p-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                                <DollarSign className="w-4 h-4 text-indigo-400" />
+                            <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Weekly API Spend</p>
+                            <div className="p-2.5 bg-[#ff6b00]/10 rounded-xl border border-[#ff6b00]/20 text-[#ff6b00] group-hover:scale-110 transition-transform">
+                                <DollarSign className="w-4 h-4" />
                             </div>
                         </div>
-                        <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">$1,842<span className="text-slate-500 text-2xl">.50</span></h3>
+                        <h3 className="text-5xl font-extrabold text-white mb-3 tracking-tight">$1,842<span className="text-slate-600 text-3xl font-bold">.50</span></h3>
                         <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-bold bg-red-500/10 text-red-400 px-2 py-0.5 rounded border border-red-500/20">+$340 (22%)</span>
+                            <span className="text-[11px] font-bold bg-red-500/10 text-red-400 px-2.5 py-1 rounded-md border border-red-500/20">+$340 (22%)</span>
                             <span className="text-xs text-slate-500 font-medium">vs last week</span>
                         </div>
                     </div>
 
-                    {/* Card 2 */}
-                    <div className="bg-[#131627]/50 backdrop-blur-sm border border-slate-800/60 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/30 transition-all">
+                    {/* Card 2: Continuity */}
+                    <div className="bg-white/[0.01] backdrop-blur-xl border border-white/[0.05] rounded-3xl p-8 relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 hover:border-[#2b58ff]/40 hover:shadow-[0_15px_40px_rgba(43,88,255,0.1)]">
                         <div className="flex justify-between items-start mb-6">
-                            <p className="text-slate-400 font-semibold text-xs uppercase tracking-wider">Continuity Keeper Rate</p>
-                            <div className="p-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                                <Target className="w-4 h-4 text-emerald-400" />
+                            <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Continuity Rate</p>
+                            <div className="p-2.5 bg-[#2b58ff]/10 rounded-xl border border-[#2b58ff]/20 text-[#2b58ff] group-hover:scale-110 transition-transform">
+                                <Target className="w-4 h-4" />
                             </div>
                         </div>
-                        <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">18.4<span className="text-slate-500 text-2xl">%</span></h3>
-                        <div className="w-full bg-slate-800/60 h-1.5 rounded-full mt-4 overflow-hidden">
-                            <div className="bg-emerald-400 h-full rounded-full shadow-[0_0_10px_rgba(52,211,153,0.5)]" style={{ width: '18.4%' }}></div>
+                        <h3 className="text-5xl font-extrabold text-white mb-4 tracking-tight">18.4<span className="text-slate-600 text-3xl font-bold">%</span></h3>
+                        <div className="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                            <div className="bg-gradient-to-r from-[#2b58ff] to-[#d927a1] h-full rounded-full" style={{ width: '18.4%' }}></div>
                         </div>
                     </div>
 
-                    {/* Card 3 */}
-                    <div className="bg-[#131627]/50 backdrop-blur-sm border border-slate-800/60 rounded-2xl p-6 relative overflow-hidden group hover:border-amber-500/30 transition-all">
+                    {/* Card 3: Wasted Credits */}
+                    <div className="bg-white/[0.01] backdrop-blur-xl border border-white/[0.05] rounded-3xl p-8 relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 hover:border-[#d927a1]/40 hover:shadow-[0_15px_40px_rgba(217,39,161,0.1)]">
                         <div className="flex justify-between items-start mb-6">
-                            <p className="text-slate-400 font-semibold text-xs uppercase tracking-wider">Est. Wasted Credits</p>
-                            <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
-                                <Flame className="w-4 h-4 text-amber-500" />
+                            <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Est. Wasted Credits</p>
+                            <div className="p-2.5 bg-[#d927a1]/10 rounded-xl border border-[#d927a1]/20 text-[#d927a1] group-hover:scale-110 transition-transform">
+                                <Flame className="w-4 h-4" />
                             </div>
                         </div>
-                        <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">$1,480<span className="text-slate-500 text-2xl">.00</span></h3>
+                        <h3 className="text-5xl font-extrabold text-white mb-3 tracking-tight">$1,480<span className="text-slate-600 text-3xl font-bold">.00</span></h3>
                         <p className="text-xs text-slate-500 font-medium">Calculated from "Reject" telemetry</p>
                     </div>
                 </div>
 
                 {/* Intelligence Autopsy Banner */}
-                <div className="bg-gradient-to-r from-[#1E1B2E] to-[#131627] border border-indigo-500/20 rounded-2xl p-6 relative overflow-hidden shadow-[0_0_40px_rgba(99,102,241,0.05)]">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-purple-500"></div>
-                    <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-                        <div className="bg-indigo-500/10 p-4 rounded-xl border border-indigo-500/20 shrink-0 shadow-[inset_0_0_20px_rgba(99,102,241,0.1)]">
-                            <BrainCircuit className="w-7 h-7 text-indigo-400" />
+                <div className="rounded-3xl p-[1px] bg-gradient-to-r from-[#ff6b00] via-[#d927a1] to-[#2b58ff] shadow-[0_0_40px_rgba(217,39,161,0.15)] group">
+                    <div className="bg-[#03040B] rounded-[23px] p-8 relative overflow-hidden flex flex-col md:flex-row gap-8 items-start md:items-center h-full transition-all duration-500 group-hover:bg-[#03040B]/80">
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b00]/10 via-[#d927a1]/10 to-[#2b58ff]/10 pointer-events-none opacity-50"></div>
+                        
+                        <div className="bg-[#d927a1]/10 p-5 rounded-2xl border border-[#d927a1]/20 shrink-0 relative z-10">
+                            <BrainCircuit className="w-8 h-8 text-[#d927a1]" />
                         </div>
-                        <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                                <h3 className="text-base font-bold text-white tracking-wide">Autopsy Insight: Workflow Bottleneck</h3>
-                                <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">High Spend</span>
+                        <div className="flex-1 relative z-10">
+                            <div className="flex items-center gap-4 mb-3">
+                                <h3 className="text-xl font-extrabold text-white tracking-wide">Autopsy Insight: Workflow Bottleneck</h3>
+                                <span className="bg-[#ff6b00]/10 text-[#ff6b00] border border-[#ff6b00]/30 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest animate-pulse">High Spend</span>
                             </div>
-                            <p className="text-slate-400 text-sm leading-relaxed max-w-3xl">
-                                An <span className="text-white font-semibold">88% failure rate</span> was detected on Runway Gen-3 when combining <code>camera pan &gt; 5</code> with the keyword <code>"neon lighting"</code>. This parameter conflict is causing severe character drift and has burned <strong>$142.50</strong> today.
+                            <p className="text-slate-300 text-sm leading-relaxed max-w-3xl">
+                                An <span className="text-white font-bold bg-red-500/20 px-1.5 py-0.5 rounded">88% failure rate</span> was detected on Runway Gen-3 when combining <code>camera pan &gt; 5</code> with the keyword <code>"neon lighting"</code>. This conflict causes severe drift and burned <strong>$142.50</strong> today.
                             </p>
                         </div>
-                        <div className="shrink-0 w-full md:w-auto">
-                            <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-[0_0_20px_rgba(99,102,241,0.3)] flex items-center justify-center gap-2">
+                        <div className="shrink-0 w-full md:w-auto relative z-10">
+                            <button className="w-full bg-white text-black hover:bg-slate-200 px-6 py-3.5 rounded-xl text-sm font-bold transition-transform duration-300 hover:scale-105 flex items-center justify-center gap-2">
                                 Apply Auto-Filter <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
@@ -216,70 +235,67 @@ export default function Dashboard() {
                 </div>
 
                 {/* Live Data Table */}
-                <div className="bg-[#131627]/80 backdrop-blur-md border border-slate-800/80 rounded-2xl overflow-hidden shadow-2xl">
-                    <div className="p-5 border-b border-slate-800/80 flex justify-between items-center bg-[#0B0D17]/50">
-                        <h3 className="text-sm font-bold text-white flex items-center gap-2 tracking-wide">
-                            <TerminalSquare className="w-4 h-4 text-slate-400" />
-                            LIVE INTERCEPTION STREAM
+                <div className="bg-white/[0.01] backdrop-blur-2xl border border-white/[0.05] rounded-3xl overflow-hidden shadow-2xl">
+                    <div className="p-6 border-b border-white/[0.05] flex justify-between items-center bg-white/[0.01]">
+                        <h3 className="text-sm font-bold text-white flex items-center gap-3 tracking-widest uppercase">
+                            <TerminalSquare className="w-5 h-5 text-[#2b58ff]" />
+                            Live Interception Stream
                         </h3>
+                        <button className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-lg border border-white/5 transition-all"><Filter className="w-4 h-4" /></button>
                     </div>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-[#0B0D17]/80 text-slate-500 text-[10px] font-bold uppercase tracking-widest border-b border-slate-800/80">
-                                    <th className="px-6 py-4">Timestamp</th>
-                                    <th className="px-6 py-4">Model & Seed</th>
-                                    <th className="px-6 py-4">Prompt Payload</th>
-                                    <th className="px-6 py-4">Status</th>
+                                <tr className="bg-white/[0.02] text-slate-500 text-[10px] font-bold uppercase tracking-widest border-b border-white/[0.05]">
+                                    <th className="px-8 py-5">Timestamp</th>
+                                    <th className="px-8 py-5">Model & Seed</th>
+                                    <th className="px-8 py-5">Prompt Payload</th>
+                                    <th className="px-8 py-5">Status</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-sm divide-y divide-slate-800/40">
+                            <tbody className="text-sm divide-y divide-white/[0.02]">
                                 {loading ? (
                                     <tr>
-                                      <td colSpan={4} className="p-12 text-center">
-                                        <div className="flex flex-col items-center justify-center gap-3">
-                                          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                                          <span className="text-slate-500 font-medium text-sm">Establishing secure telemetry link...</span>
-                                        </div>
+                                      <td colSpan={4} className="p-16 text-center">
+                                        <div className="w-8 h-8 border-2 border-[#d927a1] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                                        <span className="text-slate-400 font-medium text-sm">Establishing secure telemetry link...</span>
                                       </td>
                                     </tr>
                                 ) : !supabase ? (
-                                    <tr><td colSpan={4} className="p-8 text-center text-red-400 text-sm font-medium bg-red-500/5">Database connection required. Check .env variables.</td></tr>
+                                    <tr><td colSpan={4} className="p-10 text-center text-[#ff6b00] text-sm font-medium">Database connection required. Check Vercel .env variables.</td></tr>
                                 ) : telemetryLogs.length === 0 ? (
                                     <tr>
-                                      <td colSpan={4} className="p-12 text-center">
-                                        <div className="flex flex-col items-center justify-center gap-2 text-slate-500">
-                                          <RadioReceiver className="w-8 h-8 opacity-50 mb-2" />
-                                          <span className="font-medium">Listening for generation events...</span>
-                                          <span className="text-xs">Run a prompt in Runway or Kling to see data here.</span>
-                                        </div>
+                                      <td colSpan={4} className="p-16 text-center">
+                                        <RadioReceiver className="w-10 h-10 opacity-30 mx-auto mb-3 text-slate-400" />
+                                        <div className="font-medium text-slate-400">Listening for generation events...</div>
+                                        <div className="text-xs text-slate-500 mt-1">Run a prompt in Runway to see data intercept here.</div>
                                       </td>
                                     </tr>
                                 ) : (
                                     telemetryLogs.map((log, index) => (
-                                        <tr key={log.id || index} className="hover:bg-slate-800/30 transition-colors group">
-                                            <td className="px-6 py-4 text-slate-500 font-mono text-xs">{formatTime(log.created_at)}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-semibold text-slate-200">{log.model || 'Runway Gen-3'}</div>
-                                                <div className="text-[11px] font-mono text-slate-500 mt-0.5">Seed: <span className="text-indigo-300">{log.seed || 'Pending...'}</span></div>
+                                        <tr key={log.id || index} className="hover:bg-white/[0.03] transition-colors duration-300">
+                                            <td className="px-8 py-6 text-slate-400 font-mono text-xs">{formatTime(log.created_at)}</td>
+                                            <td className="px-8 py-6">
+                                                <div className="font-bold text-white tracking-wide">{log.model || 'Runway Gen-3'}</div>
+                                                <div className="text-[11px] font-mono text-slate-500 mt-1">Seed: <span className="text-[#2b58ff]">{log.seed || 'Pending...'}</span></div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <p className="text-slate-300 truncate max-w-[400px] font-mono text-xs bg-[#0B0D17] px-3 py-1.5 rounded-md border border-slate-800/80 text-ellipsis overflow-hidden">
+                                            <td className="px-8 py-6">
+                                                <div className="text-slate-300 truncate max-w-[450px] font-mono text-xs bg-white/[0.02] px-4 py-2.5 rounded-lg border border-white/[0.05]">
                                                     {log.prompt || 'No prompt payload detected'}
-                                                </p>
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-8 py-6">
                                                 {log.status === 'kept' ? (
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-[11px] font-bold uppercase tracking-wider">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-[11px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                                                         <CheckCircle2 className="w-3.5 h-3.5" /> Kept
                                                     </span>
                                                 ) : log.status === 'rejected' ? (
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-red-500/20 bg-red-500/10 text-red-400 text-[11px] font-bold uppercase tracking-wider">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#ff6b00]/20 bg-[#ff6b00]/10 text-[#ff6b00] text-[11px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(255,107,0,0.1)]">
                                                         <XCircle className="w-3.5 h-3.5" /> Rejected
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-slate-500/20 bg-slate-500/10 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 text-slate-400 text-[11px] font-bold uppercase tracking-widest">
                                                         <Activity className="w-3.5 h-3.5" /> Tracked
                                                     </span>
                                                 )}
